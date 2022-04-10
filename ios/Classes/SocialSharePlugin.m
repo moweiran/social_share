@@ -334,6 +334,12 @@
         } else {
             [installedApps setObject:[NSNumber numberWithBool: NO] forKey:@"telegram"];
         }
+
+        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb-messenger://"]]) {
+            [installedApps setObject:[NSNumber numberWithBool: YES] forKey:@"messenger"];
+        } else {
+            [installedApps setObject:[NSNumber numberWithBool: NO] forKey:@"messenger"];
+        }
         result(installedApps);
     } else {
         result(FlutterMethodNotImplemented);

@@ -208,6 +208,7 @@ class SocialSharePlugin:FlutterPlugin, MethodCallHandler, ActivityAware {
             apps["twitter"] = packages.any  { it.packageName.toString().contentEquals("com.twitter.android") }
             apps["whatsapp"] = packages.any  { it.packageName.toString().contentEquals("com.whatsapp") }
             apps["telegram"] = packages.any  { it.packageName.toString().contentEquals("org.telegram.messenger") }
+            apps["messenger"] = packages.any { it.packageName.toString().contentEquals("com.facebook.orca") }
 
             result.success(apps)
         } else {
