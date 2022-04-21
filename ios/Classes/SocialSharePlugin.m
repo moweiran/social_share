@@ -5,6 +5,9 @@
 
 #import "SocialSharePlugin.h"
 #include <objc/runtime.h>
+#import <MessageUI/MessageUI.h>
+
+//static FlutterResult flutterResult;
 
 @implementation SocialSharePlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
@@ -14,6 +17,7 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
+//    flutterResult = result;
     if ([@"shareInstagramStory" isEqualToString:call.method]) {
         //Sharing story on instagram
         NSString *stickerImage = call.arguments[@"stickerImage"];
@@ -340,10 +344,50 @@
         } else {
             [installedApps setObject:[NSNumber numberWithBool: NO] forKey:@"messenger"];
         }
+        
+        if ([MFMailComposeViewController canSendMail]) {
+            [installedApps setObject:[NSNumber numberWithBool: YES] forKey:@"email"];
+        } else {
+            [installedApps setObject:[NSNumber numberWithBool: NO] forKey:@"email"];
+        }
+        
         result(installedApps);
     } else {
         result(FlutterMethodNotImplemented);
     }
 }
+
+//#pragma mark MFMailComposeViewControllerDelegate Methods
+//
+//- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+//{
+//
+//    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+//    while (ctrl.presentedViewController && ctrl != controller) {
+//        ctrl = ctrl.presentedViewController;
+//    }
+//    if(flutterResult) {
+//         switch (result) {
+//            case MFMailComposeResultSent:
+//                flutterResult(@"sent");
+//                break;
+//            case MFMailComposeResultSaved:
+//                flutterResult( @"saved");
+//                break;
+//            case MFMailComposeResultCancelled:
+//                flutterResult(@"cancelled");
+//                break;
+//            case MFMailComposeResultFailed:
+//                flutterResult(@"failed");
+//                break;
+//            default:
+//                flutterResult(@"unknown");
+//                break;
+//         }
+//    } else {
+//        NSLog(@"No callback registered for mail: %@", controller.title);
+//    }
+//    [ctrl dismissViewControllerAnimated:YES completion:nil];
+//}
 
 @end
